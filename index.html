@@ -5,15 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Porto à Tua Maneira – Experiências Turísticas Personalizadas no Porto</title>
     <meta name="description" content="Porto à Tua Maneira — roteiros e experiências personalizadas no Porto. Descobre sugestões adaptadas ao teu perfil, orçamento e tempo disponível.">
+    <link rel="alternate" hreflang="en" href="/index_en.html">
+
     <!-- Open Graph -->
     <meta property="og:title" content="Porto à Tua Maneira – Experiências Personalizadas no Porto">
     <meta property="og:description" content="Roteiros e experiências personalizadas no Porto. Cria o teu roteiro e descobre a cidade à tua maneira.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://images.unsplash.com/photo-1570554520913-ce6a5c293633?w=1200&q=80">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Porto à Tua Maneira – Experiências Personalizadas no Porto">
+    <meta name="twitter:description" content="Roteiros e experiências personalizadas no Porto. Cria o teu roteiro e descobre a cidade à tua maneira.">
+
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Porto à Tua Maneira",
+      "url": "https://portoatuamaneira.example",
+      "logo": "https://portoatuamaneira.example/logo.png"
+    }
+    </script>
 </head>
 <body>
     <a class="skip-link" href="#maincontent">Saltar para o conteúdo</a>
@@ -44,13 +61,19 @@
 
     <main id="maincontent" role="main">
         <section id="inicio" class="hero" aria-label="Hero - Porto à Tua Maneira">
-            <div class="hero-overlay" aria-hidden="true"></div>
+            <picture>
+                <source media="(min-width:1200px)" srcset="https://images.unsplash.com/photo-1570554520913-ce6a5c293633?w=1600&q=80&auto=format&fit=crop">
+                <source media="(min-width:768px)" srcset="https://images.unsplash.com/photo-1570554520913-ce6a5c293633?w=1200&q=80&auto=format&fit=crop">
+                <img src="https://images.unsplash.com/photo-1570554520913-ce6a5c293633?w=800&q=80&auto=format&fit=crop" alt="Vista do Porto ao pôr do sol" loading="lazy" style="width:100%;height:auto;object-fit:cover;opacity:.28;position:absolute;inset:0;">
+            </picture>
             <div class="hero-content">
                 <h1>O Porto, à tua maneira</h1>
                 <p>Experiências personalizadas para descobrires a cidade de forma autêntica, simples e inesquecível. Roteiros adaptados ao teu perfil, orçamento e tempo disponível.</p>
                 <a href="#experiencias" class="btn btn-primary">Encontra a tua próxima experiência</a>
             </div>
         </section>
+
+        <!-- rest of page unchanged -->
 
         <section id="sobre" class="section sobre">
             <div class="container">
