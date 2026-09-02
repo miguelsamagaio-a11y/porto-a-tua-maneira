@@ -2,10 +2,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navLinks = document.getElementById('navLinks');
     const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+
+    function openMenu() {
+        navLinks.classList.add('active');
+        mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        // focus first link for keyboard users
+        const firstLink = navLinks.querySelector('a');
+        if (firstLink) firstLink.focus();
+    }
+
+    function closeMenu(returnFocus = true) {
+        navLinks.classList.remove('active');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        if (returnFocus) mobileMenuBtn.focus();
+    }
 
     if (mobileMenuBtn) {
         mobileMenuBtn.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            if (expanded) closeMenu(); else openMenu();
+        });
+
+        // close menu on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                closeMenu();
+            }
         });
     }
 
@@ -13,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', function() {
                 navLinks.classList.remove('active');
+                mobileMenuBtn && mobileMenuBtn.setAttribute('aria-expanded', 'false');
             });
         });
     }
@@ -20,13 +44,32 @@ document.addEventListener('DOMContentLoaded', function() {
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const nome = document.getElementById('nome').value;
-            const email = document.getElementById('email').value;
+            // Simple accessible UI feedback (prototype)
+            const nome = document.getElementById('nome').value.trim();
+            const email = document.getElementById('email').value.trim();
             const assunto = document.getElementById('assunto').value;
-            const mensagem = document.getElementById('mensagem').value;
+            const mensagem = document.getElementById('mensagem').value.trim();
 
-            alert(`Obrigado pelo teu contacto, ${nome}!\n\nComo este é um protóºı´po académico, a mensagem não será enviada. Num site real, esta informação seria enviada para: suporte@portoatuamaneira.pt\n\nTempo médio de resposta: 24 a 48 horas uteis.`);
-            contactForm.reset();
+            if (!nome || !email || !assunto || !mensagem) {
+                formStatus.textContent = 'Por favor preenche todos os campos obrigatórios.';
+                formStatus.classList.remove('sr-only-visible');
+                return;
+            }
+
+            // Disable submit while "sending"
+            const submitBtn = contactForm.querySelector('[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.setAttribute('aria-busy', 'true');
+            formStatus.textContent = 'A enviar a tua mensagem...';
+            formStatus.classList.remove('sr-only-visible');
+
+            // Simulate async send (prototype)
+            setTimeout(() => {
+                formStatus.textContent = `Obrigado pelo teu contacto, ${nome}! Como este é um protótipo académico, a mensagem não será realmente enviada.`;
+                submitBtn.disabled = false;
+                submitBtn.removeAttribute('aria-busy');
+                contactForm.reset();
+            }, 900);
         });
     }
 
@@ -37,10 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Smooth scroll for in-page anchors (respecting fixed header)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
+            const href = this.getAttribute('href');
+            // allow external anchors like # in links that are just placeholders
+            if (href === '#') return;
+            const targetElement = document.querySelector(href);
             if (targetElement) {
                 e.preventDefault();
                 const headerOffset = 80;
